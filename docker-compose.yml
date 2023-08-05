@@ -1,0 +1,35 @@
+version: "3"
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DB_PORT: 5432
+      DB_HOST: postgres
+      DB_USER: test
+      DB_PASSWORD: test
+      DB_NAME: newDB
+    restart: always
+
+  postgres:
+    image: postgres
+    container_name: ogl
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=newDB
+    restart: always
